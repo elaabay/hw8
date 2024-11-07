@@ -47,9 +47,9 @@
         </p>
         <p>
             <strong>Parameters Used:</strong><br>
-            - `deck_count`: the number of decks to use when shuffling. I  used a single deck by setting `deck_count=1`.<br>
-            - `deck_id`: After shuffling it generates an unique deck ID. It is used in requests to draw cards from that specific deck.<br>
-            - `count`: the number of cards to draw in each request. I set `count=1` to draw one card at a time.
+            - deck_count: the number of decks to use when shuffling. I  used a single deck by setting deck_count=1.<br>
+            - deck_id: After shuffling it generates an unique deck ID. It is used in requests to draw cards from that specific deck.<br>
+            - count: the number of cards to draw in each request. I set count=1 to draw one card at a time.
         </p>
         <p>
             <strong>Potential Applications:</strong>
@@ -76,7 +76,7 @@
                 alert("Deck not ready yet. Please refresh and wait for the deck to load.");
                 return;
             }
-            fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+            fetch('https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1)
                 .then(response => response.json())
                 .then(data => {
                     const card = data.cards[0];
