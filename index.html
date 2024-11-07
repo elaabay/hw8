@@ -76,7 +76,7 @@
                 alert("Deck not ready yet. Please refresh and wait for the deck to load.");
                 return;
             }
-            fetch('https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1)
+            fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
                 .then(response => response.json())
                 .then(data => {
                     const card = data.cards[0];
