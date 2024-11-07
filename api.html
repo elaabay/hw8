@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deck of Cards - Draw a Card</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #card-container {
+            margin-top: 20px;
+        }
+        #card-container img {
+            width: 150px;
+            height: auto;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        .card-info {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .info-section {
+            text-align: left;
+            max-width: 600px;
+            margin: 40px auto 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1>Deck of Cards - Draw a Card</h1>
+    <button onclick="drawCard()">Draw a Card</button>
+    <div id="card-container">
+        <div id="card-info" class="card-info"></div>
+    </div>
+    <div class="info-section">
+        <h2>About the API</h2>
+        <p>
+            <strong>API Name:</strong> Deck of Cards API<br>
+            <strong>Description:</strong> The Deck of Cards API allows users to create a virtual deck of cards, shuffle it, and draw individual cards/groups of cards. It gives a simple way to make a deck of cards in  web applications.
+        </p>
+        <p>
+            <strong>Source:</strong> <a href="https://deckofcardsapi.com/" target="_blank">Deck of Cards API</a>
+        </p>
+        <p>
+            <strong>Parameters Used:</strong><br>
+            - `deck_count`: the number of decks to use when shuffling. I  used a single deck by setting `deck_count=1`.<br>
+            - `deck_id`: After shuffling it generates an unique deck ID. It is used in requests to draw cards from that specific deck.<br>
+            - `count`: the number of cards to draw in each request. I set `count=1` to draw one card at a time.
+        </p>
+        <p>
+            <strong>Potential Applications:</strong>
+            <ul>
+                <li>Creating card games, such as solitaire or blackjack, in a web-based application.</li>
+                <li>Using a random card draw feature in educational tools, for example, teaching probability.</li>
+            </ul>
+        </p>
+    </div>
+
+    <script>
+        let deckId = '';
+        function shuffleDeck() {
+            fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+                .then(response => response.json())
+                .then(data => {
+                    deckId = data.deck_id;
+                    console.log("Deck ID:", deckId);
+                })
+                .catch(error => console.error("Error shuffling the deck:", error));
+        }
+        function drawCard() {
+            if (!deckId) {
+                alert("Deck not ready yet. Please refresh and wait for the deck to load.");
+                return;
+            }
+            fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
+                .then(response => response.json())
+                .then(data => {
+                    const card = data.cards[0];
+                    document.getElementById('card-container').innerHTML = `
+                        <img src="${card.image}" alt="${card.value} of ${card.suit}">
+                        <div class="card-info">${card.value} of ${card.suit}</div>
+                    `;
+                })
+                .catch(error => console.error("Error drawing a card:", error));
+        }
+        shuffleDeck();
+    </script>
+</body>
+</html>
